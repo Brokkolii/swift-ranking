@@ -1,0 +1,27 @@
+<div class="song">
+    <div class="album">
+        <div class="albumname">
+            {{this.song.album}}
+        </div>
+        <div class="tracknumber">
+            {{this.song.trackNumber}}
+        </div>
+    </div>
+    <div class="songinfo">
+        <div class="name">
+            {{this.song.name}}
+        </div>
+        <div class="artists">
+            {{this.song.artists}}
+        </div>
+
+        <div class="duration">
+            {{this.song.duration}}
+        </div>
+
+        <div *ngIf="this.song.explicit" class="explicit">
+            EXPLICIT
+        </div>
+    </div>
+    <a target="_blank" href="{{this.song.spotifyUrl}}" class="play-button"></a>
+</div>
