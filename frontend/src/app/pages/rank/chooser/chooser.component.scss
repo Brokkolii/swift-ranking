@@ -1,0 +1,124 @@
+.wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  transform: translate(-50%, -50%);
+  border-radius: 24px;
+  border: 1px white solid;
+  transition: transform 0.5s ease-in-out;
+  z-index: 1;
+  user-select: none;
+}
+
+.backdrop {
+  z-index: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.backdrop.on_side {
+  pointer-events: all;
+}
+
+.wrapper.on_side {
+  transform: translate(calc(-25% + 50vw), -50%);
+}
+
+.glass-wrapper {
+  border-radius: 24px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.glass {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  opacity: 1; /* make the div half see-through */
+  background-color: white; /* set the background color to white */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* add a subtle drop shadow */
+  z-index: 1;
+  filter: blur(20px);
+  opacity: 0.7;
+}
+
+.content {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2;
+}
+
+.song1,
+.song2 {
+  width: 300px;
+  height: 300px;
+  margin: 4px;
+  border-radius: 24px;
+  background-repeat: no-repeat;
+  background-size: 300px 300px;
+  filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04))
+    drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1));
+}
+
+.song1 span,
+.song2 span {
+  position: absolute;
+  top: 100%;
+  width: calc(100% - 24px);
+  margin: 0 12px;
+  text-align: center;
+  padding: 4px 0;
+  font-size: 24px;
+}
+
+.song-wrapper {
+  position: relative;
+  margin-top: 50px;
+}
+
+.song1,
+.song2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.song1 {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 300px);
+  transform: rotateY(15deg) rotateZ(-8deg);
+  transition: transform 75ms ease-in-out;
+}
+
+.song2 {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: rotateY(-15deg) rotateZ(8deg);
+  transition: transform 75ms ease-in-out;
+}
+
+.song1:hover {
+  z-index: 99;
+  transform: rotateY(15deg) rotateZ(-3deg) scale(1.2);
+}
+
+.song2:hover {
+  z-index: 99;
+  transform: rotateY(-15deg) rotateZ(3deg) scale(1.2);
+}

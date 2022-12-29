@@ -1,0 +1,13 @@
+.ranking {
+  display: grid;
+  gap: 8px;
+  overflow-y: auto;
+  height: 800px;
+}
+
+:host {
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

@@ -1,0 +1,43 @@
+<div class="wrapper">
+  <div class="rank" *ngIf="rank">{{ rank }}</div>
+  <div
+    class="song"
+    [ngStyle]="{
+      'background-color':
+        'rgb(' +
+        this.song.album.color.r +
+        ',' +
+        this.song.album.color.g +
+        ',' +
+        this.song.album.color.b +
+        ')'
+    }"
+  >
+    <img
+      class="album"
+      src="{{ this.song.album.images[0].url }}"
+      title="{{ this.song.album.name }} ({{ this.song.trackNumber }})"
+    />
+    <div class="songinfo">
+      <div class="name">
+        <span>
+          {{ this.song.name }}
+        </span>
+      </div>
+      <div class="artists">
+        <span>
+          {{ this.song.artists }}
+        </span>
+      </div>
+      <div class="duration">
+        <span>
+          {{ this.song.duration }}
+        </span>
+      </div>
+    </div>
+    <a target="_blank" href="{{ this.song.spotifyUrl }}" class="spotifyLink">
+      <img src="assets\Spotify_logo_with_text.svg" />
+    </a>
+    <div *ngIf="this.song.explicit" class="explicit">EXPLICIT</div>
+  </div>
+</div>

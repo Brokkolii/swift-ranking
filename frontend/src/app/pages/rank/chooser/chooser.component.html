@@ -1,0 +1,62 @@
+<div class="wrapper" [class.on_side]="on_side" (mouseenter)="on_side = false">
+  <div class="glass-wrapper">
+    <div class="glass"></div>
+    <div
+      class="glass song1-glass"
+      [ngStyle]="{
+        'background-color':
+          'rgb(' +
+          this.song1.album.color.r +
+          ',' +
+          this.song1.album.color.g +
+          ',' +
+          this.song1.album.color.b +
+          ')'
+      }"
+      *ngIf="glass1Hovered"
+    ></div>
+    <div
+      class="glass song2-glass"
+      [ngStyle]="{
+        'background-color':
+          'rgb(' +
+          this.song2.album.color.r +
+          ',' +
+          this.song2.album.color.g +
+          ',' +
+          this.song2.album.color.b +
+          ')'
+      }"
+      *ngIf="glass2Hovered"
+    ></div>
+  </div>
+
+  <div class="content">
+    <h1>What song do you like more?</h1>
+    <div class="song-wrapper">
+      <div
+        class="song1"
+        (mouseenter)="glass1Hovered = true"
+        (mouseleave)="glass1Hovered = false"
+        [ngStyle]="{
+          'background-image': 'url(' + this.song1.album.images[0].url + ')'
+        }"
+        (click)="this.songChosen(this.song1, this.song2)"
+      >
+        <span>{{ this.song1.name }}</span>
+      </div>
+      <div
+        class="song2"
+        (mouseenter)="glass2Hovered = true"
+        (mouseleave)="glass2Hovered = false"
+        [ngStyle]="{
+          'background-image': 'url(' + this.song2.album.images[0].url + ')'
+        }"
+        (click)="this.songChosen(this.song2, this.song1)"
+      >
+        <span>{{ this.song2.name }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="backdrop" [class.on_side]="!on_side" (click)="on_side = true"></div>

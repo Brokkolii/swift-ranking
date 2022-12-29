@@ -1,24 +1,17 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RankingComponent } from './pages/ranking/ranking.component';
-import { SongComponent } from './pages/ranking/song/song.component';
+import { SongComponent } from './pages/rank/song/song.component';
+import { RankComponent } from './pages/rank/rank.component';
+import { ChooserComponent } from './pages/rank/chooser/chooser.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    RankingComponent,
-    SongComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
-  ],
+  declarations: [AppComponent, SongComponent, RankComponent, ChooserComponent],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, ScrollingModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

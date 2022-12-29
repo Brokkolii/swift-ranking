@@ -1,0 +1,16 @@
+<h1>Ranking</h1>
+
+<cdk-virtual-scroll-viewport class="ranking" scrollWindow itemSize="50">
+  <app-song
+    *ngFor="let song of rankedSongs; let rank = index"
+    [song]="song.song"
+    [rank]="rank + 1"
+  ></app-song>
+</cdk-virtual-scroll-viewport>
+<app-chooser
+  *ngIf="this.song1 && this.song2"
+  ho
+  [song1]="this.song1"
+  [song2]="this.song2"
+  (onChoose)="songChosen($event)"
+></app-chooser>
