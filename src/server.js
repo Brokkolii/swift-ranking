@@ -40,7 +40,7 @@ app.get("/api/songs", async (req, res) => {
 
 // redirect everything else to the frontend
 app.get("/*", (req, res) => {
-  res.sendFile(config.frontend.path + config.frontend.entry);
+  res.sendFile(config.frontend.path + "/" + config.frontend.entry);
 });
 
 // Start the server
