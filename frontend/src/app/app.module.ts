@@ -7,9 +7,10 @@ import { AppComponent } from './app.component';
 import { SongComponent } from './pages/rank/song/song.component';
 import { RankComponent } from './pages/rank/rank.component';
 import { ChooserComponent } from './pages/rank/chooser/chooser.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
-  declarations: [AppComponent, SongComponent, RankComponent, ChooserComponent],
+  declarations: [AppComponent, SongComponent, RankComponent, ChooserComponent, LoadingComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, ScrollingModule],
   providers: [],
   bootstrap: [AppComponent],

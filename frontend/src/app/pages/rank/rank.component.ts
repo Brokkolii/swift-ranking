@@ -15,6 +15,8 @@ export class RankComponent {
   song1: Song | undefined;
   song2: Song | undefined;
 
+  loading: boolean = true;
+
   constructor(private songsService: SongsService) {}
 
   ngOnInit() {
@@ -27,7 +29,12 @@ export class RankComponent {
         });
       });
       this.updateSongs();
+      this.loading = false;
     });
+  }
+
+  isLoading() {
+    return this.loading ? 'laoding' : 'not loading';
   }
 
   songChosen(chosenSongs: { winner: Song; looser: Song }) {
@@ -61,9 +68,10 @@ export class RankComponent {
         }
       }
     }
-
+    this.loading = true;
     this.updateSongs();
     this.updateRanking();
+    this.loading = false;
   }
 
   updateSongs() {

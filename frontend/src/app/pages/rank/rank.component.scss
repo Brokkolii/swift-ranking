@@ -9,5 +9,11 @@
   height: 85vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+}
+
+.loading-wrapper {
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
