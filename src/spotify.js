@@ -1,4 +1,3 @@
-require("dotenv").config();
 const { getHeaders } = require("./auth");
 const { getDominantColor } = require("./getDominantColor");
 

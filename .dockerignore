@@ -1,0 +1,8 @@
+*.example.env
+*.env
+
+node_modules/
+dist/
+.idea/
+.vscode/
+.angular/

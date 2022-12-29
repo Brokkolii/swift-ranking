@@ -1,3 +1,4 @@
+require("dotenv").config();
 const config = require("./config");
 const { getDominantColor } = require("./getDominantColor");
 const { getSpotifyHeaders } = require("./auth");
