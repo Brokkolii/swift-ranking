@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { SongsService } from 'src/app/services/songs.service';
 import { RankedSong } from 'src/app/types/ranked-song';
+import { Song } from 'src/app/types/song';
 
 @Component({
   selector: 'app-rank',
@@ -11,16 +12,14 @@ export class RankComponent {
   rankedSongs: RankedSong[] = [];
   viewPortRankedSongs: RankedSong[] = [];
 
-  song1: any;
-  song2: any;
-
-  AmountOfDecisions = 0;
+  song1: Song | undefined;
+  song2: Song | undefined;
 
   constructor(private songsService: SongsService) {}
 
   ngOnInit() {
     this.songsService.getSongs().subscribe((songs) => {
-      songs.forEach((song: any) => {
+      songs.forEach((song: Song) => {
         this.rankedSongs.push({
           song: song,
           before: [],
@@ -31,8 +30,7 @@ export class RankComponent {
     });
   }
 
-  songChosen(chosenSongs: any) {
-    this.AmountOfDecisions++;
+  songChosen(chosenSongs: { winner: Song; looser: Song }) {
     const winner = chosenSongs.winner;
     const looser = chosenSongs.looser;
 
@@ -70,13 +68,13 @@ export class RankComponent {
 
   updateSongs() {
     let bannedSong1s = [];
-    this.song1 = null;
-    this.song2 = null;
+    this.song1 = undefined;
+    this.song2 = undefined;
     let itterations = 0;
     while ((!this.song1 || !this.song2) && itterations < 50) {
       itterations++;
-      this.song1 = null;
-      this.song2 = null;
+      this.song1 = undefined;
+      this.song2 = undefined;
       let song1childCount = this.rankedSongs.length;
       let song2childCount = this.rankedSongs.length;
 
@@ -107,9 +105,10 @@ export class RankComponent {
         if (
           this.rankedSongs[i].before.length < song2childCount &&
           this.rankedSongs[i].song.id !== this.song1.id &&
-          this.rankedSongs[i].before.filter((song) => song.id === this.song1.id)
-            .length === 0 &&
-          this.rankedSongs[i].after.filter((song) => song.id === this.song1.id)
+          this.rankedSongs[i].before.filter(
+            (song) => song.id === this.song1?.id
+          ).length === 0 &&
+          this.rankedSongs[i].after.filter((song) => song.id === this.song1?.id)
             .length === 0
         ) {
           song2childCount = this.rankedSongs[i].before.length;
@@ -118,10 +117,11 @@ export class RankComponent {
         if (
           this.rankedSongs[i].after.length < song2childCount &&
           this.rankedSongs[i].song.id !== this.song1.id &&
-          this.rankedSongs[i].after.filter((song) => song.id === this.song1.id)
+          this.rankedSongs[i].after.filter((song) => song.id === this.song1?.id)
             .length === 0 &&
-          this.rankedSongs[i].before.filter((song) => song.id === this.song1.id)
-            .length === 0
+          this.rankedSongs[i].before.filter(
+            (song) => song.id === this.song1?.id
+          ).length === 0
         ) {
           song2childCount = this.rankedSongs[i].after.length;
           this.song2 = this.rankedSongs[i].song;
@@ -192,15 +192,15 @@ export class RankComponent {
     } while (hadToChange);
   }
 
-  putSongBeforeSong(song: any, beforeSong: any) {
+  putSongBeforeSong(song: Song, beforeSong: Song) {
     // find the index of the element you want to move
     let index = this.rankedSongs.findIndex(
-      (item: any) => item.song.id === song.id
+      (item: RankedSong) => item.song.id === song.id
     );
     const rankedSong = this.rankedSongs[index];
     // find the index of the element before which you want to move the element
     let beforeIndex = this.rankedSongs.findIndex(
-      (item: any) => item.song.id === beforeSong.id
+      (item: RankedSong) => item.song.id === beforeSong.id
     );
 
     // remove the element at index and add it to beforeIndex
@@ -213,17 +213,17 @@ export class RankComponent {
     ];
   }
 
-  putSongAfterSong(song: any, afterSong: any) {
+  putSongAfterSong(song: Song, afterSong: Song) {
     // find the index of the element you want to move
     let index = this.rankedSongs.findIndex(
-      (item: any) => item.song.id === song.id
+      (item: RankedSong) => item.song.id === song.id
     );
 
     const rankedSong = this.rankedSongs[index];
 
     // find the index of the element before which you want to move the element
     let afterIndex = this.rankedSongs.findIndex(
-      (item: any) => item.song.id === afterSong.id
+      (item: RankedSong) => item.song.id === afterSong.id
     );
 
     // remove the element at index and add it to beforeIndex

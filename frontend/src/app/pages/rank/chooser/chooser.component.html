@@ -3,6 +3,7 @@
     <div class="glass"></div>
     <div
       class="glass song1-glass"
+      *ngIf="song1 && glass1Hovered"
       [ngStyle]="{
         'background-color':
           'rgb(' +
@@ -13,7 +14,6 @@
           this.song1.album.color.b +
           ')'
       }"
-      *ngIf="glass1Hovered"
     ></div>
     <div
       class="glass song2-glass"
@@ -27,21 +27,22 @@
           this.song2.album.color.b +
           ')'
       }"
-      *ngIf="glass2Hovered"
+      *ngIf="song2 && glass2Hovered"
     ></div>
   </div>
 
   <div class="content">
-    <h1>What song do you like more?</h1>
+    <h1>What song do you like more</h1>
     <div class="song-wrapper">
       <div
         class="song1"
         (mouseenter)="glass1Hovered = true"
         (mouseleave)="glass1Hovered = false"
         [ngStyle]="{
-          'background-image': 'url(' + this.song1.album.images[0].url + ')'
+          'background-image': 'url(' + this.song1.album.image + ')'
         }"
         (click)="this.songChosen(this.song1, this.song2)"
+        *ngIf="song1 && song2"
       >
         <span>{{ this.song1.name }}</span>
       </div>
@@ -50,9 +51,10 @@
         (mouseenter)="glass2Hovered = true"
         (mouseleave)="glass2Hovered = false"
         [ngStyle]="{
-          'background-image': 'url(' + this.song2.album.images[0].url + ')'
+          'background-image': 'url(' + this.song2.album.image + ')'
         }"
         (click)="this.songChosen(this.song2, this.song1)"
+        *ngIf="song1 && song2"
       >
         <span>{{ this.song2.name }}</span>
       </div>

@@ -1,13 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Song } from 'src/app/types/song';
 
 @Component({
   selector: 'app-song',
   templateUrl: './song.component.html',
   styleUrls: ['./song.component.scss'],
 })
-export class SongComponent {
+export class SongComponent implements OnInit {
   // input property
-  @Input() song: any;
+  @Input() song?: Song;
   @Input() rank: number | undefined;
   constructor() {}
+  ngOnInit(): void {}
 }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RankedSong } from 'src/app/types/ranked-song';
+import { Song } from 'src/app/types/song';
 
 @Component({
   selector: 'app-chooser',
@@ -7,12 +7,12 @@ import { RankedSong } from 'src/app/types/ranked-song';
   styleUrls: ['./chooser.component.scss'],
 })
 export class ChooserComponent {
-  @Input() song1: any;
-  @Input() song2: any;
+  @Input() song1?: Song;
+  @Input() song2?: Song;
 
-  @Output() onChoose = new EventEmitter<any>();
+  @Output() onChoose = new EventEmitter<{ winner: Song; looser: Song }>();
 
-  songChosen(winner: any, looser: any) {
+  songChosen(winner: Song, looser: Song) {
     this.onChoose.emit({ winner: winner, looser: looser });
   }
 

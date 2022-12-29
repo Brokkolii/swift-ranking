@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="song">
   <div class="rank" *ngIf="rank">{{ rank }}</div>
   <div
     class="song"
@@ -15,7 +15,7 @@
   >
     <img
       class="album"
-      src="{{ this.song.album.images[0].url }}"
+      src="{{ this.song.album.image }}"
       title="{{ this.song.album.name }} ({{ this.song.trackNumber }})"
     />
     <div class="songinfo">

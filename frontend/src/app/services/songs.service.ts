@@ -2,32 +2,42 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable, tap } from 'rxjs';
 
+import { environment } from 'src/environments/environment';
+import { Song } from '../types/song';
+import { ApiTrackData } from '../types/api-track-data';
+
 @Injectable({
   providedIn: 'root',
 })
 export class SongsService {
   constructor(private http: HttpClient) {}
 
-  getSongs(): Observable<any> {
-    return this.http.get('http://localhost:3080/api/songs').pipe(
-      map((response: any) =>
-        response.map((song: any) => {
-          return {
-            name: song.name,
-            artists: song.artists.map((artist: any) => artist.name).join(', '),
-            duration: msToSongDuration(song.duration_ms),
-            explicit: song.explicit,
-            spotifyUrl: song.external_urls.spotify,
-            previewUrl: song.preview_url,
-            trackNumber: song.track_number,
-            album: song.album,
-            id: song.id,
-          };
-        })
-      ),
-      map((songs: any) => shuffle(songs)),
-      tap((songs: any) => console.log(songs))
-    );
+  getSongs(): Observable<Song[]> {
+    return this.http
+      .get<ApiTrackData[]>(environment.apiBaseUrl + '/songs')
+      .pipe(
+        map((response: ApiTrackData[]) =>
+          response.map((song: ApiTrackData) => {
+            return {
+              name: song.name,
+              artists: song.artists.map((artist) => artist.name).join(', '),
+              duration: msToSongDuration(song.duration_ms),
+              explicit: song.explicit,
+              spotifyUrl: song.external_urls.spotify,
+              previewUrl: song.preview_url,
+              trackNumber: song.track_number,
+              album: {
+                color: song.album.color,
+                image: song.album.images[0].url,
+                id: song.album.id,
+                name: song.album.name,
+              },
+              id: song.id,
+            };
+          })
+        ),
+        map((songs: Song[]) => shuffle(songs))
+      );
   }
 }
 
@@ -39,7 +49,7 @@ function msToSongDuration(ms: number) {
   return mins + ':' + secs;
 }
 
-function shuffle(a: any[]) {
+function shuffle(a: Song[]) {
   var j, x, i;
   for (i = a.length - 1; i > 0; i--) {
     j = Math.floor(Math.random() * (i + 1));

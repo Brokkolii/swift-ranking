@@ -1,5 +1,7 @@
+import { Song } from './song';
+
 export interface RankedSong {
-  song: any;
-  before: any[];
-  after: any[];
+  song: Song;
+  before: Song[];
+  after: Song[];
 }
