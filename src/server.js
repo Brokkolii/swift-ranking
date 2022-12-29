@@ -1,9 +1,8 @@
 require("dotenv").config();
 const config = require("./config");
-const { getDominantColor } = require("./getDominantColor");
-const { getSpotifyHeaders } = require("./auth");
-const { getAlbumIds, getTracksFromAlbums } = require("./albums");
-const { getAlbum } = require("./spotify");
+
+const { getAlbumIds } = require("./albums");
+const { getTracksForAlbums, getSpotifyAccessToken } = require("./spotify");
 
 const express = require("express");
 const cors = require("cors");
@@ -25,18 +24,11 @@ app.get("/api/health", (req, res) => {
 
 // songs endpoint
 app.get("/api/songs", async (req, res) => {
+  const accessToken = await getSpotifyAccessToken();
   const albumIds = getAlbumIds();
-  const albums = [];
-
-  for (const id of albumIds) {
-    const album = await getAlbum(id);
-    albums.push(album);
-  }
-
-  if (albums.length === albumIds.length) {
-    const tracks = await getTracksFromAlbums(albums);
-    res.send(tracks);
-  }
+  const tracks = await getTracksForAlbums(albumIds, accessToken);
+  console.log(tracks.length);
+  res.send(tracks);
 });
 
 // redirect everything else to the frontend

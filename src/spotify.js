@@ -1,49 +1,53 @@
+require("dotenv").config();
 const { getHeaders } = require("./auth");
 const { getDominantColor } = require("./getDominantColor");
 
 const request = require("request");
 
-async function getAlbum(id) {
-  const accessToken = await getSpotifyAccessToken();
-
-  const requestData = {
-    url: `https://api.spotify.com/v1/albums/${id}`,
-    headers: getHeaders(accessToken),
-  };
+async function getTracksForAlbums(albumIds, accessToken) {
+  const tracks = [];
+  let albumsReceived = 0;
 
   return new Promise((resolve, reject) => {
-    request.get(requestData, (err, res, body) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
+    for (i in albumIds) {
+      const albumRequestData = {
+        url: `https://api.spotify.com/v1/albums/${albumIds[i]}`,
+        headers: getHeaders(accessToken),
+      };
 
-      const album = JSON.parse(body);
+      request.get(albumRequestData, (err, res, body) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
 
-      getDominantColor(album.images[0].url).then((dominantColor) => {
-        album.color = dominantColor;
-        resolve(album);
+        const album = JSON.parse(body);
+
+        getDominantColor(album.images[0].url).then((dominantColor) => {
+          album.color = dominantColor;
+
+          const tracksRequestData = {
+            url: `https://api.spotify.com/v1/albums/${album.id}/tracks`,
+            headers: getHeaders(accessToken),
+          };
+
+          request.get(tracksRequestData, (err, res, body) => {
+            if (err) {
+              return res.status(500).send(err);
+            }
+
+            const albumTracks = JSON.parse(body).items;
+
+            for (let j in albumTracks) {
+              const track = albumTracks[j];
+              track.album = album;
+              tracks.push(track);
+            }
+            albumsReceived++;
+            if (albumsReceived === albumIds.length) resolve(tracks);
+          });
+        });
       });
-    });
-  });
-}
-
-async function getTracksForAlbum(id) {
-  const accessToken = await getSpotifyAccessToken();
-
-  const requestData = {
-    url: `https://api.spotify.com/v1/albums/${id}/tracks`,
-    headers: getHeaders(accessToken),
-  };
-
-  return new Promise((resolve, reject) => {
-    request.get(requestData, (err, res, body) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      const tracks = JSON.parse(body).items;
-      resolve(tracks);
-    });
+    }
   });
 }
 
@@ -62,9 +66,7 @@ async function getSpotifyAccessToken() {
       if (err) {
         return reject(err);
       }
-
       const accessToken = JSON.parse(body).access_token;
-
       if (accessToken) {
         resolve(accessToken);
       } else {
@@ -74,4 +76,4 @@ async function getSpotifyAccessToken() {
   });
 }
 
-module.exports = { getSpotifyAccessToken, getAlbum, getTracksForAlbum };
+module.exports = { getSpotifyAccessToken, getTracksForAlbums };

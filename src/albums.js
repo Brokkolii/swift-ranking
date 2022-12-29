@@ -96,21 +96,4 @@ function getAlbumIds() {
   return albums.map((album) => album.id);
 }
 
-async function getTracksFromAlbums(albums) {
-  let tracks = [];
-
-  for (let i in albums) {
-    let album = albums[i];
-
-    let albumTracks = await getTracksForAlbum(album.id);
-
-    for (let j in albumTracks) {
-      let track = albumTracks[j];
-      track.album = album;
-      tracks.push(track);
-    }
-  }
-  return tracks;
-}
-
-module.exports = { getAlbumIds, getTracksFromAlbums };
+module.exports = { getAlbumIds };
