@@ -3,7 +3,7 @@ require("dotenv").config();
 const request = require("request");
 
 async function getOpinionForSong(artist, song) {
-  const prompt = `Greet the fan of ${artist} and then tell them something about their favourite song: '${song}'. Call the fan by the typical name of a fan of ${artist}.`;
+  const prompt = `The User of an app just choose the song "${song}" by ${artist}. Say something about the song in one or two sentences and complement the choice.`;
 
   const chatgptRequestData = {
     url: `https://api.openai.com/v1/completions`,
@@ -13,9 +13,9 @@ async function getOpinionForSong(artist, song) {
     },
     body: JSON.stringify({
       prompt: prompt,
-      max_tokens: 50,
+      max_tokens: 100,
       model: "text-davinci-003",
-      temperature: 0.5,
+      temperature: 0.2,
     }),
   };
 

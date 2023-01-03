@@ -56,7 +56,7 @@ app.get("/api/albums", async (req, res) => {
 app.post("/api/opinion", async (req, res) => {
   const { artist, song } = req.body;
   const opinion = await getOpinionForSong(artist, song);
-  res.send(opinion);
+  res.send({ text: opinion });
 });
 
 // redirect everything else to the frontend
