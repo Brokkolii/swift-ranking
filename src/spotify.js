@@ -51,6 +51,35 @@ async function getTracksForAlbums(albumIds, accessToken) {
   });
 }
 
+async function getAlbums(albumIds, accessToken) {
+  const albums = [];
+  let albumsReceived = 0;
+
+  return new Promise((resolve, reject) => {
+    for (i in albumIds) {
+      const albumRequestData = {
+        url: `https://api.spotify.com/v1/albums/${albumIds[i]}`,
+        headers: getHeaders(accessToken),
+      };
+
+      request.get(albumRequestData, (err, res, body) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+
+        const album = JSON.parse(body);
+
+        getDominantColor(album.images[0].url).then((dominantColor) => {
+          album.color = dominantColor;
+          albums.push(album);
+          albumsReceived++;
+          if (albumsReceived === albumIds.length) resolve(albums);
+        });
+      });
+    }
+  });
+}
+
 async function getSpotifyAccessToken() {
   const requestData = {
     url: "https://accounts.spotify.com/api/token",
@@ -76,4 +105,4 @@ async function getSpotifyAccessToken() {
   });
 }
 
-module.exports = { getSpotifyAccessToken, getTracksForAlbums };
+module.exports = { getSpotifyAccessToken, getTracksForAlbums, getAlbums };
