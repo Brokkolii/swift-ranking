@@ -3,7 +3,7 @@ const config = require("./config");
 
 const { getAlbumIds } = require("./albums");
 const { getTracksForAlbums, getSpotifyAccessToken, getAlbums } = require("./spotify");
-const { getOpinionForSong, listModels } = require("./openai");
+const { getOpinionForSong } = require("./openai");
 
 const express = require("express");
 const bodyParser = require("body-parser");

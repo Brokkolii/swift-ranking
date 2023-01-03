@@ -22,28 +22,9 @@ async function getOpinionForSong(artist, song) {
   return new Promise((resolve, reject) => {
     request.post(chatgptRequestData, (err, res, body) => {
       const response = JSON.parse(body);
-      console.log(response.choices[0].text);
       resolve(response.choices[0].text);
     });
   });
 }
 
-async function listModels() {
-  const chatgptRequestData = {
-    url: `https://api.openai.com/v1/models`,
-    headers: {
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-  };
-
-  return new Promise((resolve, reject) => {
-    request.get(chatgptRequestData, (err, res, body) => {
-      const response = JSON.parse(body);
-      console.log(response);
-      resolve(response);
-    });
-  });
-}
-
-module.exports = { listModels, getOpinionForSong };
+module.exports = { getOpinionForSong };
